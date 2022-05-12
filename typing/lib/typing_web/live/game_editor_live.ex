@@ -14,7 +14,11 @@ defmodule TypingWeb.GameEditorLive do
     {:ok, socket}
   end
 
-  def handle_event("toggle_input_key", _params, socket) do
+  def handle_event("toggle_" <> event, params, socket) do
+    socket =
+      update(socket, :editor, fn editor ->
+        GameEditor.update(editor, event, params)
+      end)
     {:noreply, socket}
   end
 end
