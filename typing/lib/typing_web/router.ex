@@ -19,7 +19,6 @@ defmodule TypingWeb.Router do
 
     get "/", PageController, :index
 
-    live "/home", HomeEditorLive, :index
     live "/game", GameEditorLive, :index
   end
 

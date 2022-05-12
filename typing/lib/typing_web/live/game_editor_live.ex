@@ -1,16 +1,25 @@
 defmodule TypingWeb.GameEditorLive do
   use Phoenix.LiveView
-  require Logger
 
   def render(assigns), do: TypingWeb.GameEditorView.render(assigns.template, assigns)
 
   def mount(params, _session, socket) do
-    Logger.info(params)
     socket =
       socket
-      |> assign(:page_title, "ゲーム")
+      |> assign(:input_key, "")
+      |> assign(:page_title, "タイピングゲーム")
       |> assign(:template, "main.html")
 
     {:ok, socket}
+  end
+
+  def handle_event("toggle_input_key", params, socket) do
+    socket =
+      update(socket, :input_key, fn input_key ->
+        key = Map.get(params, "key", "")
+        input_key <> key
+      end)
+
+    {:noreply, socket}
   end
 end
