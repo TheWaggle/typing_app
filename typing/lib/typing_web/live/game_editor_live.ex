@@ -19,6 +19,7 @@ defmodule TypingWeb.GameEditorLive do
       update(socket, :editor, fn editor ->
         GameEditor.update(editor, event, params)
       end)
+
     {:noreply, socket}
   end
 end

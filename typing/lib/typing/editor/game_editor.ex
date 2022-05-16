@@ -6,17 +6,23 @@ defmodule Typing.Editor.GameEditor do
             char_count: 0,
             now_char_count: 0,
             failure_count: 0,
-            game_status: 0
+            game_status: 0,
+            char_list: [],
+            clear_count: 0
 
-    # game_status
-    # 0・・・ゲーム停止
-    # 1・・・ゲーム実行中
+  # game_status
+  # 0・・・ゲーム停止
+  # 1・・・ゲーム実行中
 
   def construct() do
+    char_list = ~w(HelloWorld!! Elixir Phoenix Docker Windows)
+    display_char = hd(char_list)
+
     %__MODULE__{
-      display_char: "HelloWorld!!",
-      char_count: String.length("HelloWorld!!"),
-      game_status: 1
+      display_char: display_char,
+      char_count: String.length(display_char),
+      game_status: 1,
+      char_list: char_list
     }
   end
 
@@ -42,7 +48,7 @@ defmodule Typing.Editor.GameEditor do
       when key not in @exclusion_key and key_check(char, count, key) and editor.game_status == 1 do
     cond do
       editor.now_char_count == editor.char_count - 1 ->
-        %{editor | display_char: "クリア", input_char: editor.input_char <> key, game_status: 0}
+        next_char(editor, key)
 
       true ->
         %{editor | input_char: editor.input_char <> key, now_char_count: editor.now_char_count + 1}
@@ -55,4 +61,34 @@ defmodule Typing.Editor.GameEditor do
   end
 
   def update(%__MODULE__{} = editor, "input_key", _params), do: editor
+
+  # 次の表示文字を割り当てます。その際リストに文字列がなければゲームクリアの状態にします。
+  defp next_char(editor, key) do
+    char_list = List.delete(editor.char_list, editor.display_char)
+
+    case length(char_list) do
+      0 ->
+        %{
+          editor
+          | char_list: char_list,
+            display_char: "クリア",
+            input_char: editor.input_char <> key,
+            game_status: 0,
+            clear_count: editor.clear_count + 1
+        }
+
+      _num ->
+        display_char = hd(char_list)
+
+        %{
+          editor
+          | char_list: char_list,
+            display_char: display_char,
+            input_char: "",
+            char_count: String.length(display_char),
+            now_char_count: 0,
+            clear_count: editor.clear_count + 1
+        }
+    end
+  end
 end
