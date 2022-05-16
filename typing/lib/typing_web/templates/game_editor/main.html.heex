@@ -2,6 +2,8 @@
 
 <p>あなたの入力：<%= @editor.input_char %></p>
 
+<p>ミスした回数：<%= @editor.failure_count %> 回</p>
+
 <div 
   phx-window-blur="page-inacive"
   phx-window-focus="page-active"
