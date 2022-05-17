@@ -1,6 +1,10 @@
-<h2><%= @editor.display_char %></h2>
-
-<p>あなたの入力：<%= @editor.input_char %></p>
+<h2>
+  <%= if @editor.game_status == 1 do %>
+    <span style="color: blue;"><%= @editor.input_char %></span><%= trem_display_char(@editor) %>
+  <% else %>
+    <%= @editor.display_char %>
+  <% end %>
+</h2>
 
 <p>クリアした回数：<%= @editor.clear_count %> 回</p>
 <p>ミスした回数：<%= @editor.failure_count %> 回</p>
