@@ -9,6 +9,8 @@
 <p>クリアした回数：<%= @editor.clear_count %> 回</p>
 <p>ミスした回数：<%= @editor.failure_count %> 回</p>
 
+<p><%= @editor.timer %>秒</p>
+
 <div 
   phx-window-blur="page-inacive"
   phx-window-focus="page-active"
