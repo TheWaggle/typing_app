@@ -1,5 +1,5 @@
 <h2>
-  <%= if @editor.game_status == 1 do %>
+  <%= if @editor.game_status in [1, 2] do %>
     <span style="color: blue;"><%= @editor.input_char %></span><%= trem_display_char(@editor) %>
   <% else %>
     <%= @editor.display_char %>
@@ -8,6 +8,14 @@
 
 <p>クリアした回数：<%= @editor.clear_count %> 回</p>
 <p>ミスした回数：<%= @editor.failure_count %> 回</p>
+
+
+<h2>実行結果</h2>
+<h2><%= if @editor.result, do: inspect(@editor.result), else: "" %></h2>
+
+<%= if @editor.game_status == 2 do %>
+  <h1>Enterを押してください</h1>
+<% end %>
 
 <div 
   phx-window-blur="page-inacive"
