@@ -15,7 +15,15 @@ defmodule Typing.Editor.GameEditor do
   # 1・・・ゲーム実行中
 
   def construct() do
-    char_list = ~w(HelloWorld!! Elixir Phoenix Docker Windows)
+    char_list =
+      [
+        "Enum.map([1, 2, 3], fn a -> a * 2 end)",
+        "Enum.shuffle([1, 2, 3])",
+        "Enum.reverse([1, 2, 3])",
+        "Map.put(%{a: \"a\", b: \"b\", c: \"c\"}, :d, \"b\")",
+        "Enum.map([1, 2, 3], fn a -> a * 2 end) |> Enum.shuffle()"
+      ]
+
     display_char = hd(char_list)
 
     %__MODULE__{
@@ -42,7 +50,7 @@ defmodule Typing.Editor.GameEditor do
     ArrowRight
     ArrowUp
     ArrowDown
-  ) ++ [" "]
+  )
 
   def update(%__MODULE__{display_char: char, now_char_count: count} = editor, "input_key", %{"key" => key})
       when key not in @exclusion_key and key_check(char, count, key) and editor.game_status == 1 do
