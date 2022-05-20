@@ -12,6 +12,10 @@
 <h2>実行結果</h2>
 <h2><%= if @editor.result, do: inspect(@editor.result), else: "" %></h2>
 
+<%= if @editor.game_status == 2 do %>
+  <h1>Enterを押してください</h1>
+<% end %>
+
 <div 
   phx-window-blur="page-inacive"
   phx-window-focus="page-active"

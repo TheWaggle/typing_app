@@ -32,3 +32,6 @@ typing-*.tar
 npm-debug.log
 /assets/node_modules/
 
+# 含めない
+/priv/static/result.exs
+

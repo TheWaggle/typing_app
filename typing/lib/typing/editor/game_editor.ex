@@ -15,6 +15,7 @@ defmodule Typing.Editor.GameEditor do
   # game_status
   # 0・・・ゲーム停止
   # 1・・・ゲーム実行中
+  # 2・・・Enter入力待ち
 
   def construct() do
     char_list =
@@ -54,6 +55,7 @@ defmodule Typing.Editor.GameEditor do
     ArrowDown
   )
 
+  # @exclusion_key以外かつ入力判定がtrueかつgame_statusが1の場合はここがよばれる
   def update(%__MODULE__{display_char: char, now_char_count: count} = editor, "input_key", %{"key" => key})
       when key not in @exclusion_key and key_check(char, count, key) and editor.game_status == 1 do
     cond do
@@ -65,11 +67,20 @@ defmodule Typing.Editor.GameEditor do
     end
   end
 
+  # @exclusion_key以外かつgame_statusが1の場合はここがよばれる
+  # 間違ったキーを入力した場合
   def update(%__MODULE__{} = editor, "input_key", %{"key" => key})
       when key not in @exclusion_key and editor.game_status == 1 do
     %{editor | failure_count: editor.failure_count + 1}
   end
 
+  # game_statusが2でEnterキーが入力された場合にここがよばれる
+  def update(%__MODULE__{} = editor, "input_key", %{"key" => key})
+      when key == "Enter" and editor.game_status == 2 do
+    next_char(editor, key)
+  end
+
+  # どのガードにもマッチしなかった場合にここがよばれる
   def update(%__MODULE__{} = editor, "input_key", _params), do: editor
 
   # 次の表示文字を割り当てます。その際リストに文字列がなければゲームクリアの状態にします。
@@ -84,7 +95,7 @@ defmodule Typing.Editor.GameEditor do
             display_char: "クリア",
             input_char: editor.input_char <> key,
             game_status: 0,
-            clear_count: editor.clear_count + 1
+            result: nil
         }
 
       _num ->
@@ -97,7 +108,8 @@ defmodule Typing.Editor.GameEditor do
             input_char: "",
             char_count: String.length(display_char),
             now_char_count: 0,
-            clear_count: editor.clear_count + 1
+            game_status: 1,
+            result: nil
         }
     end
   end
@@ -109,6 +121,7 @@ defmodule Typing.Editor.GameEditor do
     %{
       editor
       | result: result,
+        game_status: 2,
         input_char: editor.input_char <> key,
         clear_count: editor.clear_count + 1
     }
