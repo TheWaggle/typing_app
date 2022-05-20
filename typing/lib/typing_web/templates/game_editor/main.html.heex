@@ -9,6 +9,9 @@
 <p>クリアした回数：<%= @editor.clear_count %> 回</p>
 <p>ミスした回数：<%= @editor.failure_count %> 回</p>
 
+<h2>実行結果</h2>
+<h2><%= if @editor.result, do: inspect(@editor.result), else: "" %></h2>
+
 <div 
   phx-window-blur="page-inacive"
   phx-window-focus="page-active"
