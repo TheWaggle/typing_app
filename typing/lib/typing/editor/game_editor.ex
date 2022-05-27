@@ -20,6 +20,9 @@ defmodule Typing.Editor.GameEditor do
   def construct() do
     char_list =
       [
+        "Enum.map([1, 2, 3])",
+        "Enum.map(1, fn a -> a end)",
+        "String.split(a, \" \")",
         "Enum.map([1, 2, 3], fn a -> a * 2 end)",
         "Enum.shuffle([1, 2, 3])",
         "Enum.reverse([1, 2, 3])",
@@ -116,7 +119,12 @@ defmodule Typing.Editor.GameEditor do
 
   # display_char の値（関数）を実行して、その結果をresultに割り当てます。
   defp display_result(editor, key) do
-    {result, _} = Execution.execution(editor.display_char)
+    result =
+      case Execution.execution(editor.display_char) do
+        {r, _} -> r
+
+        error -> error
+      end
 
     %{
       editor
