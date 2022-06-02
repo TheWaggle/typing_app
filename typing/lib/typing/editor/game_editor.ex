@@ -10,7 +10,12 @@ defmodule Typing.Editor.GameEditor do
             game_status: 0,
             char_list: [],
             clear_count: 0,
-            result: nil
+            result: nil,
+            mode: :select
+
+  # mode
+  #:select・・・モード選択
+  #:training・・・練習モード
 
   # game_status
   # 0・・・ゲーム停止
@@ -20,14 +25,9 @@ defmodule Typing.Editor.GameEditor do
   def construct() do
     char_list =
       [
-        "Enum.map([1, 2, 3])",
-        "Enum.map(1, fn a -> a end)",
-        "String.split(a, \" \")",
         "Enum.map([1, 2, 3], fn a -> a * 2 end)",
         "Enum.shuffle([1, 2, 3])",
-        "Enum.reverse([1, 2, 3])",
-        "Map.put(%{a: \"a\", b: \"b\", c: \"c\"}, :d, \"b\")",
-        "Enum.map([1, 2, 3], fn a -> a * 2 end) |> Enum.shuffle()"
+        "Enum.map([1, 2, 3])"
       ]
 
     display_char = hd(char_list)
@@ -85,6 +85,12 @@ defmodule Typing.Editor.GameEditor do
 
   # どのガードにもマッチしなかった場合にここがよばれる
   def update(%__MODULE__{} = editor, "input_key", _params), do: editor
+
+  def update(%__MODULE__{} = editor, "select_mode", %{"mode" => mode})
+      when mode in ["training", "select"] do
+    mode = String.to_atom(mode)
+    %{editor | mode: mode}
+  end
 
   # 次の表示文字を割り当てます。その際リストに文字列がなければゲームクリアの状態にします。
   defp next_char(editor, key) do
