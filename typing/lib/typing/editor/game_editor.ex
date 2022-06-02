@@ -11,7 +11,8 @@ defmodule Typing.Editor.GameEditor do
             char_list: [],
             clear_count: 0,
             result: nil,
-            mode: :select
+            mode: :select,
+            timer: 0
 
   # mode
   #:select・・・モード選択
@@ -86,11 +87,20 @@ defmodule Typing.Editor.GameEditor do
   # どのガードにもマッチしなかった場合にここがよばれる
   def update(%__MODULE__{} = editor, "input_key", _params), do: editor
 
+  # trainigまたはselectを割り当てる
   def update(%__MODULE__{} = editor, "select_mode", %{"mode" => mode})
       when mode in ["training", "select"] do
     mode = String.to_atom(mode)
     %{editor | mode: mode}
   end
+
+  #モードが :traingin だった場合にここを呼ぶ
+  def update(%__MODULE__{} = editor, "timer")
+      when editor.mode == :training and editor.game_status == 1 do
+    %{editor | timer: editor.timer + 1}
+  end
+
+  def update(%__MODULE__{} = editor, "timer"), do: editor
 
   # 次の表示文字を割り当てます。その際リストに文字列がなければゲームクリアの状態にします。
   defp next_char(editor, key) do
