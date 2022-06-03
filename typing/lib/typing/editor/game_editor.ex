@@ -17,6 +17,7 @@ defmodule Typing.Editor.GameEditor do
   # mode
   #:select・・・モード選択
   #:training・・・練習モード
+  #:game・・・ゲームモード（タイムアタック）
 
   # game_status
   # 0・・・ゲーム停止
@@ -87,11 +88,38 @@ defmodule Typing.Editor.GameEditor do
   # どのガードにもマッチしなかった場合にここがよばれる
   def update(%__MODULE__{} = editor, "input_key", _params), do: editor
 
-  # trainigまたはselectを割り当てる
-  def update(%__MODULE__{} = editor, "select_mode", %{"mode" => mode})
-      when mode in ["training", "select"] do
-    mode = String.to_atom(mode)
-    %{editor | mode: mode}
+  # gameを割り当てる
+  def update(%__MODULE__{} = editor, "select_mode", %{"mode" => "game"}) do
+    %{editor | mode: :game, timer: 60}
+  end
+
+  # trainigを割り当てる
+  def update(%__MODULE__{} = editor, "select_mode", %{"mode" => "training"}) do
+    %{editor | mode: :training, timer: 0}
+  end
+
+  # game, training どちらでもない場合は select を割り当てる
+  def update(%__MODULE__{} = editor, "select_mode", _params) do
+    %{editor | mode: :select}
+  end
+
+  # mode が game
+  # game_status が 1（プレイ中）
+  # timer が 0以下
+  # 上記の場合はこっちを呼ぶ
+  def update(%__MODULE__{} = editor, "timer")
+      when editor.mode == :game and editor.game_status == 1 and editor.timer <= 0 do
+    %{
+      editor
+      | display_char: "終了",
+        game_status: 0,
+        result: nil
+    }
+  end
+
+  def update(%__MODULE__{} = editor, "timer")
+      when editor.mode == :game and editor.game_status == 1 do
+    %{editor | timer: editor.timer - 1}
   end
 
   #モードが :traingin だった場合にここを呼ぶ
@@ -105,6 +133,23 @@ defmodule Typing.Editor.GameEditor do
   # 次の表示文字を割り当てます。その際リストに文字列がなければゲームクリアの状態にします。
   defp next_char(editor, key) do
     char_list = List.delete(editor.char_list, editor.display_char)
+
+    char_list =
+      if length(char_list) == 0 and editor.mode == :game do
+        list =
+          [
+            "Enum.map([1, 2, 3])",
+            "Enum.map([1, 2, 3], fn a -> a * 2 end)",
+            "Enum.shuffile([1, 2, 3])"
+          ]
+
+        Enum.shuffle(list)
+      else
+        char_list
+      end
+
+    timer =
+      if editor.mode == :game, do: editor.timer + 2, else: editor.timer
 
     case length(char_list) do
       0 ->
@@ -128,7 +173,8 @@ defmodule Typing.Editor.GameEditor do
             char_count: String.length(display_char),
             now_char_count: 0,
             game_status: 1,
-            result: nil
+            result: nil,
+            timer: timer
         }
     end
   end

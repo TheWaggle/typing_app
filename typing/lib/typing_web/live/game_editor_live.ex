@@ -29,7 +29,7 @@ defmodule TypingWeb.GameEditorLive do
       update(socket, :editor, fn editor ->
         GameEditor.update(editor, event, params)
       end)
-    if connected?(socket) and socket.assigns.editor.mode == :training do
+    if connected?(socket) and socket.assigns.editor.mode in [:training, :game] do
       :timer.send_interval(1000, "timer")
     end
 
