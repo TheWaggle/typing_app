@@ -2,5 +2,6 @@
   case @editor.mode do
     :select -> render "select.html", editor: @editor
     mode when mode in [:training, :game] -> render "game.html", editor: @editor
+    :result -> render "result.html", editor: @editor
   end
 %>

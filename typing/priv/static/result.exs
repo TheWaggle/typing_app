@@ -1,1 +1,1 @@
-Map.put(%{a: "a", b: "b", c: "c"}, :d, "b")
+Enum.shuffile([1, 2, 3])

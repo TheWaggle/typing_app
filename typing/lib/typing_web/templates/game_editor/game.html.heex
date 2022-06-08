@@ -7,7 +7,7 @@
 </h2>
 
 <p>クリアした回数：<%= @editor.clear_count %> 回</p>
-<p>ミスした回数：<%= @editor.failure_count %> 回</p>
+<p>ミスした回数：<%= @editor.failure_counts %> 回</p>
 
 <h2>実行結果</h2>
 <h2><%= if @editor.result, do: inspect(@editor.result), else: "" %></h2>
@@ -18,6 +18,12 @@
 
 <h2><%= get_timer_title(@editor) %></h2>
 <h2><%= @editor.timer %></h2>
+
+<%= if @editor.game_status == 3 do %>
+  <button phx-click="toggle_select_mode" phx-value-mode="result">
+    結果を表示
+  </button>
+<% end %>
 
 <div 
   phx-window-blur="page-inacive"

@@ -11,6 +11,10 @@ defmodule TypingWeb.GameEditorLive do
       |> assign(:page_title, "タイピングゲーム")
       |> assign(:template, "main.html")
 
+    if connected?(socket) do
+      :timer.send_interval(1000, "timer")
+    end
+
     {:ok, socket}
   end
 
@@ -19,19 +23,6 @@ defmodule TypingWeb.GameEditorLive do
       update(socket, :editor, fn editor ->
         GameEditor.update(editor, "timer")
       end)
-
-    {:noreply, socket}
-  end
-
-  def handle_event("toggle_" <> event, params, socket)
-      when event == "select_mode" do
-    socket =
-      update(socket, :editor, fn editor ->
-        GameEditor.update(editor, event, params)
-      end)
-    if connected?(socket) and socket.assigns.editor.mode in [:training, :game] do
-      :timer.send_interval(1000, "timer")
-    end
 
     {:noreply, socket}
   end
