@@ -5,7 +5,9 @@ defmodule Typing.Core do
 
   @doc """
   idからcore_accountを取得します。
+  存在しないidの場合はnilを返します。
   """
+  @spec get_account(Ecto.UUID.t()) :: Core.Account.t() | nil
   def get_account(<<_::288>> = id) do
     query =
       from(a in Core.Account,

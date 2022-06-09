@@ -1,4 +1,6 @@
 # 含めない
 tmp/
 
-typing/priv/static/result.exs
+typing/priv/static/result.exs/
+
+typing/log/
