@@ -1,11 +1,11 @@
-# Script for populating the database. You can run it as:
-#
-#     mix run priv/repo/seeds.exs
-#
-# Inside the script, you can read and write to any of your
-# repositories directly:
-#
-#     Typing.Repo.insert!(%Typing.SomeSchema{})
-#
-# We recommend using the bang functions (`insert!`, `update!`
-# and so on) as they will fail if something goes wrong.
+Logger.configure(level: :warning)
+
+file_names = ~w(
+  core_account
+)
+
+for file_name <- file_names do
+  IO.puts(file_name)
+  path = Path.join([__DIR__, "seeds", file_name <> ".exs"])
+  Code.eval_file(path)
+end
