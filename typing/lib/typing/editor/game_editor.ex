@@ -1,8 +1,10 @@
 defmodule Typing.Editor.GameEditor do
   import Typing.Utils.KeysDecision
   alias Typing.Utils.Execution
+  alias Typing.Core
 
-  defstruct input_char: "",
+  defstruct account: nil,
+            input_char: "",
             display_char: "",
             char_count: 0,
             now_char_count: 0,
@@ -18,6 +20,7 @@ defmodule Typing.Editor.GameEditor do
             results: []
 
   @type t :: %__MODULE__{
+          account: Core.Account.t(),
           input_char: String.t(),
           display_char: String.t(),
           char_count: integer(),
@@ -46,7 +49,7 @@ defmodule Typing.Editor.GameEditor do
   # 2・・・Enter入力待ち
   # 3・・・ゲームクリア
 
-  def construct() do
+  def construct(%Core.Account{} = account) do
     char_list =
       [
         "Enum.map([1, 2, 3], fn a -> a * 2 end)",
@@ -57,6 +60,7 @@ defmodule Typing.Editor.GameEditor do
     display_char = hd(char_list)
 
     %__MODULE__{
+      account: account,
       display_char: display_char,
       char_count: String.length(display_char),
       game_status: 1,
