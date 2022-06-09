@@ -23,4 +23,9 @@ defmodule Typing.Core.Account do
 
     field(:password, :string, virtual: true, redact: true)
   end
+
+  @doc """
+  Core.Accountのチェンジセットを作成します。
+  """
+  def build_changeset(), do: cast(%__MODULE__{}, %{}, [])
 end
