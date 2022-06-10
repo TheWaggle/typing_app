@@ -43,6 +43,7 @@ defmodule Typing.Core do
   @doc """
   アカウントのトークを作成します。
   """
+  @spec generate_account_session_token(Core.Account.t()) :: binary()
   def generate_account_session_token(%Core.Account{} = account) do
     {token, account_token} = build_session_token(account)
     Repo.insert(account_token)
@@ -53,5 +54,19 @@ defmodule Typing.Core do
   defp build_session_token(account) do
     token = :crypto.strong_rand_bytes(@rand_size)
     {token, %Core.AccountToken{token: token, context: "session", account_id: account.id}}
+  end
+
+  @doc """
+  アカウントのトークンを削除します。
+  """
+  @spec delete_session_token(binary()) :: {:ok, Core.Account.t()}
+  def delete_session_token(token) when is_binary(token) do
+    query =
+      from(at in Core.AccountToken,
+        where: at.token == ^token
+      )
+
+    Repo.one(query)
+    |> Repo.delete()
   end
 end

@@ -34,6 +34,12 @@ defmodule TypingWeb.Router do
     end
   end
 
+  scope "/", TypingWeb do
+    pipe_through [:browser, :fetch_current_core_account]
+
+    delete "/log_out", CoreAccountSessionController, :delete
+  end
+
   # Other scopes may use custom stacks.
   # scope "/api", TypingWeb do
   #   pipe_through :api
