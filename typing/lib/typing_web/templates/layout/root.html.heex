@@ -21,6 +21,10 @@
                     <span>ログイン</span>
                   <% end %>
 
+                  <%= link to: Routes.core_account_registration_path(@conn, :new) do %>
+                    <span>アカウント作成</span>
+                  <% end %>
+
                 <% token when is_binary(token) ->  %>
                   <%= link to: Routes.core_account_session_path(@conn, :delete), method: :delete do %>
                     <span>ログアウト</span>

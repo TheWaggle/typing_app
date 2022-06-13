@@ -1,6 +1,9 @@
 defmodule Typing.Core.Account do
   use Ecto.Schema
   import Ecto.Changeset
+  import Ecto.Query
+  alias Typing.Repo
+  alias Typing.Core
 
   @type t :: %__MODULE__{
           id: Ecto.UUID.t(),
@@ -28,4 +31,58 @@ defmodule Typing.Core.Account do
   Core.Accountのチェンジセットを作成します。
   """
   def build_changeset(), do: cast(%__MODULE__{}, %{}, [])
+
+  @doc """
+  Core.Accountのチェンジセットを作成します。
+  """
+  def changeset(account, attrs \\ %{}) do
+    account
+    |> cast(attrs, [:name, :email, :password])
+    |> validate_email()
+    |> validate_password()
+  end
+
+  # emailのバリデーションをチェックします。
+  defp validate_email(changeset) do
+    changeset
+    |> validate_required([:email])
+    |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/, message: "@記号を含める必要です。また、スペースは含めないでください。")
+    |> validate_length(:email, max: 160)
+    |> validate_unique_email()
+    |> unique_constraint(:email)
+  end
+
+  # 同じメールアドレスが存在するかをチェックします。
+  defp validate_unique_email(changeset) do
+    email = get_field(changeset, :email)
+
+    query =
+      from(a in Core.Account,
+        select: a.email
+      )
+
+    emails = Repo.all(query)
+
+    if Enum.member?(emails, email) == false do
+      changeset
+    else
+      add_error(changeset, :email, "すでにこのメールアドレスが使用されています。")
+    end
+  end
+
+  defp validate_password(changeset) do
+    changeset
+    |> validate_required([:password])
+    |> validate_length(:password, min: 5, max: 72)
+    |> hash_password()
+  end
+
+  defp hash_password(changeset) do
+    password = if p = get_change(changeset, :password), do: p, else: ""
+
+    changeset
+    |> validate_length(:password, max: 72, count: :bytes)
+    |> put_change(:hashed_password, Bcrypt.hash_pwd_salt(password))
+    |> delete_change(:password)
+  end
 end
