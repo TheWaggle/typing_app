@@ -7,7 +7,7 @@ defmodule Typing.Admin.AccountToken do
           token: binary(),
           context: String.t(),
           inserted_at: DateTime.t(),
-          account: Core.Account.t()
+          account: Admin.Account.t()
   }
 
   @primary_key {:id, :binary_id, autogenerate: true}

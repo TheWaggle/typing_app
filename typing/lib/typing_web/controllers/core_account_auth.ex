@@ -2,7 +2,7 @@ defmodule TypingWeb.CoreAccountAuth do
   import Plug.Conn
   import Phoenix.Controller
 
-  alias TypingWeb.Router.Helper, as: Routes, warn: false
+  alias TypingWeb.Router.Helpers, as: Routes
   alias Typing.Core
 
   @doc """
@@ -40,13 +40,13 @@ defmodule TypingWeb.CoreAccountAuth do
   認証が確認できない場合はログイン画面にリダイレクトします。
   """
   # ここにログイン画面にリダイレクトするルートを記述
-  def requrie_authenticated_core_account(conn, _opts) do
+  def require_authenticated_core_account(conn, _opts) do
     if conn.assigns[:current_core_account] do
       conn
     else
       conn
       |> maybe_store_return_to()
-      |> redirect(to: "/")
+      |> redirect(to: Routes.core_account_session_path(conn, :new))
       |> halt()
     end
   end

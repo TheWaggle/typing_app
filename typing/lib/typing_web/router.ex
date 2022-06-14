@@ -2,6 +2,7 @@ defmodule TypingWeb.Router do
   use TypingWeb, :router
 
   import TypingWeb.CoreAccountAuth
+  import TypingWeb.AdminAccountAuth
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -30,7 +31,7 @@ defmodule TypingWeb.Router do
 
   # 認証している場合はこちらのルートを使用する
   scope "/", TypingWeb do
-    pipe_through [:browser, :fetch_current_core_account, :requrie_authenticated_core_account]
+    pipe_through [:browser, :fetch_current_core_account, :require_authenticated_core_account]
 
     live_session :game do
       live "/game", GameEditorLive, :index
@@ -41,6 +42,32 @@ defmodule TypingWeb.Router do
     pipe_through [:browser, :fetch_current_core_account]
 
     delete "/log_out", CoreAccountSessionController, :delete
+  end
+
+  # admin
+
+  # 認証していない場合はこちらのルートを使用する
+  scope "/admin", TypingWeb do
+    pipe_through [:browser, :fetch_current_admin_account, :redirect_if_admin_account_is_authenticated]
+
+
+    get "/log_in", AdminAccountSessionController, :new
+    post "/log_in", AdminAccountSessionController, :create
+  end
+
+  #  認証している場合はこちらのルートを使用する
+  scope "/admin", TypingWeb do
+    pipe_through [:browser, :fetch_current_admin_account, :require_authenticated_admin_account]
+
+    live_session :admin_account do
+      live "/account", AdminAccountEditorLive, :index
+    end
+  end
+
+  scope "/admin", TypingWeb do
+    pipe_through [:browser, :fetch_current_admin_account]
+
+    delete "/log_out", AdminAccountSessionController, :delete
   end
 
   # Other scopes may use custom stacks.

@@ -15,7 +15,6 @@ defmodule TypingWeb.CoreAccountSessionController do
 
     case Core.get_account_by_password(name, password) do
       %Core.Account{} = account ->
-        IO.inspect(account)
         token = Core.generate_account_session_token(account)
 
         conn

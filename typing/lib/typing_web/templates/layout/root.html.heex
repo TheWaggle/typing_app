@@ -15,20 +15,24 @@
         <nav>
           <ul>
             <li>
-              <%= case get_token(@conn) do %>
-                <% nil -> %>
-                  <%= link to: Routes.core_account_session_path(@conn, :new) do %>
-                    <span>ログイン</span>
-                  <% end %>
+              <%= if get_path_info(@conn) == "admin" do %>
+                <%= case get_token(@conn) do %>
+                  <% nil -> %>
+                  
+                  <% token when is_binary(token) -> %>
+                    <%= link to: Routes.admin_account_session_path(@conn, :delete), method: :delete do %>
+                      <span>ログアウト</span>
+                    <% end %>
+                <% end %>
+              <% else %>
+                <%= case get_token(@conn) do %>
+                  <% nil -> %>
 
-                  <%= link to: Routes.core_account_registration_path(@conn, :new) do %>
-                    <span>アカウント作成</span>
-                  <% end %>
-
-                <% token when is_binary(token) ->  %>
-                  <%= link to: Routes.core_account_session_path(@conn, :delete), method: :delete do %>
-                    <span>ログアウト</span>
-                  <% end %>
+                  <% token when is_binary(token) ->  %>
+                    <%= link to: Routes.core_account_session_path(@conn, :delete), method: :delete do %>
+                      <span>ログアウト</span>
+                    <% end %>
+                <% end %>
               <% end %>
             </li>
           </ul>

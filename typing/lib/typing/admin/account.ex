@@ -29,4 +29,9 @@ defmodule Typing.Admin.Account do
 
     field(:password, :string, virtual: true, redact: true)
   end
+
+  @doc """
+  Admin.Accountのチェンジセットを作成します。
+  """
+  def build_changeset(), do: cast(%__MODULE__{}, %{}, [])
 end
