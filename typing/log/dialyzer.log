@@ -1,44 +1,21 @@
 Finding suitable PLTs
 Checking PLT...
-[:asn1, :castore, :compiler, :connection, :cowboy, :cowboy_telemetry, :cowlib, :crypto, :db_connection, :decimal, :ecto, :ecto_sql, :eex, :elixir, :esbuild, :file_system, :gettext, :jason, :kernel, :logger, :mime, :phoenix, :phoenix_ecto, :phoenix_html, :phoenix_live_dashboard, :phoenix_live_reload, :phoenix_live_view, :phoenix_pubsub, :phoenix_view, :plug, :plug_cowboy, :plug_crypto, :postgrex, :public_key, :ranch, :runtime_tools, :ssl, :stdlib, :swoosh, :telemetry, :telemetry_metrics, :telemetry_poller, :xmerl]
-Looking up modules in dialyxir_erlang-24.3.3_elixir-1.13.3_deps-dev.plt
-Looking up modules in dialyxir_erlang-24.3.3_elixir-1.13.3.plt
-Looking up modules in dialyxir_erlang-24.3.3.plt
-Finding applications for dialyxir_erlang-24.3.3.plt
-Finding modules for dialyxir_erlang-24.3.3.plt
-Creating dialyxir_erlang-24.3.3.plt
-Looking up modules in dialyxir_erlang-24.3.3.plt
-Removing 3 modules from dialyxir_erlang-24.3.3.plt
-Checking 18 modules in dialyxir_erlang-24.3.3.plt
-Adding 184 modules to dialyxir_erlang-24.3.3.plt
-done in 0m28.21s
-Finding applications for dialyxir_erlang-24.3.3_elixir-1.13.3.plt
-Finding modules for dialyxir_erlang-24.3.3_elixir-1.13.3.plt
-Copying dialyxir_erlang-24.3.3.plt to dialyxir_erlang-24.3.3_elixir-1.13.3.plt
-Looking up modules in dialyxir_erlang-24.3.3_elixir-1.13.3.plt
-Checking 202 modules in dialyxir_erlang-24.3.3_elixir-1.13.3.plt
-Adding 247 modules to dialyxir_erlang-24.3.3_elixir-1.13.3.plt
-done in 0m21.13s
-Finding applications for dialyxir_erlang-24.3.3_elixir-1.13.3_deps-dev.plt
-Finding modules for dialyxir_erlang-24.3.3_elixir-1.13.3_deps-dev.plt
-Copying dialyxir_erlang-24.3.3_elixir-1.13.3.plt to dialyxir_erlang-24.3.3_elixir-1.13.3_deps-dev.plt
-Looking up modules in dialyxir_erlang-24.3.3_elixir-1.13.3_deps-dev.plt
-Checking 449 modules in dialyxir_erlang-24.3.3_elixir-1.13.3_deps-dev.plt
-Adding 937 modules to dialyxir_erlang-24.3.3_elixir-1.13.3_deps-dev.plt
-done in 1m56.58s
+[:asn1, :bcrypt_elixir, :castore, :comeonin, :compiler, :connection, :cowboy, :cowboy_telemetry, :cowlib, :crypto, :db_connection, :decimal, :ecto, :ecto_sql, :eex, :elixir, :esbuild, :file_system, :gettext, :jason, :kernel, :logger, :mime, :phoenix, :phoenix_ecto, :phoenix_html, :phoenix_live_dashboard, :phoenix_live_reload, :phoenix_live_view, :phoenix_pubsub, :phoenix_view, :plug, :plug_cowboy, :plug_crypto, :postgrex, :public_key, :ranch, :runtime_tools, :ssl, :stdlib, :swoosh, :telemetry, :telemetry_metrics, :telemetry_poller, :xmerl]
+PLT is up to date!
 No :ignore_warnings opt specified in mix.exs and default does not exist.
 
 Starting Dialyzer
 [
   check_plt: false,
   init_plt: '/apps/typing/_build/dev/dialyxir_erlang-24.3.3_elixir-1.13.3_deps-dev.plt',
-  files: ['/apps/typing/_build/dev/lib/typing/ebin/Elixir.Inspect.Typing.Core.Account.beam',
-   '/apps/typing/_build/dev/lib/typing/ebin/Elixir.Typing.Application.beam',
-   '/apps/typing/_build/dev/lib/typing/ebin/Elixir.Typing.Core.Account.beam',
-   '/apps/typing/_build/dev/lib/typing/ebin/Elixir.Typing.Core.AccountToken.beam',
-   '/apps/typing/_build/dev/lib/typing/ebin/Elixir.Typing.Core.beam', ...],
+  files: ['/apps/typing/_build/dev/lib/typing/ebin/Elixir.Typing.beam',
+   '/apps/typing/_build/dev/lib/typing/ebin/Elixir.TypingWeb.CoreAccountSessionView.beam',
+   '/apps/typing/_build/dev/lib/typing/ebin/Elixir.TypingWeb.AdminRegistrantEditorView.beam',
+   '/apps/typing/_build/dev/lib/typing/ebin/Elixir.Inspect.Typing.Core.Account.beam',
+   '/apps/typing/_build/dev/lib/typing/ebin/Elixir.TypingWeb.LayoutView.beam',
+   ...],
   warnings: [:unknown]
 ]
 Total errors: 0, Skipped: 0, Unnecessary Skips: 0
-done in 0m2.04s
+done in 0m1.35s
 done (passed successfully)

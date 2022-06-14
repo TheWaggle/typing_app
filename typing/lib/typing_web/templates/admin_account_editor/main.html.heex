@@ -1,3 +1,17 @@
+<p>
+  <ul>
+    <li>
+      アカウント情報
+    </li>
+
+    <li>
+      <%= link to: Routes.admin_registrant_editor_path(@socket, :index) do %>
+          <span>登録者一覧</span>
+      <% end %>
+    </li>
+  </ul>
+</p>
+
 <%=
   case @editor.mode do
     :summary -> render "summary.html", editor: @editor

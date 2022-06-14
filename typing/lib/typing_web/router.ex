@@ -62,6 +62,10 @@ defmodule TypingWeb.Router do
     live_session :admin_account do
       live "/account", AdminAccountEditorLive, :index
     end
+
+    live_session :registrant do
+      live "/registrant", AdminRegistrantEditorLive, :index
+    end
   end
 
   scope "/admin", TypingWeb do
