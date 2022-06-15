@@ -3,6 +3,7 @@ Logger.configure(level: :warning)
 file_names = ~w(
   core_account
   admin_account
+  game_theme
 )
 
 for file_name <- file_names do
