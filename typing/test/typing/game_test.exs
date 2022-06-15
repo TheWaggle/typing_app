@@ -24,8 +24,7 @@ defmodule Typing.GameTest do
 
       themes = Game.get_themes()
 
-      # assert match?([%Game.Theme{}], themes)
-      assert themes == []
+      assert match?([%Game.Theme{}, %Game.Theme{}, %Game.Theme{}], themes)
     end
   end
 end
