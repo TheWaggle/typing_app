@@ -102,4 +102,16 @@ defmodule Typing.GameTest do
       assert match?({:error, %Ecto.Changeset{}}, update_theme)
     end
   end
+
+  describe "delete_theme/1" do
+    test "お題を削除する。" do
+      theme = "Enum.map([1, 2, 3], fn a -> a * 2 end)"
+      description = "リストの各要素に対して処理をした結果をリストとして返します。"
+      create_theme = Factory.insert!(:game_themes, %{theme: theme, description: description})
+
+      delete_theme = Game.delete_theme(create_theme)
+
+      assert match?(nil, delete_theme)
+    end
+  end
 end

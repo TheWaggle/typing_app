@@ -41,4 +41,11 @@ defmodule Typing.Game do
     cs = Game.Theme.changeset(theme, attrs)
     Repo.update(cs)
   end
+
+  @doc """
+  game_themeを削除します。
+  """
+  def delete_theme(%Game.Theme{} = theme) do
+    nil
+  end
 end
