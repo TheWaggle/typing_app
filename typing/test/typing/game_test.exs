@@ -88,7 +88,7 @@ defmodule Typing.GameTest do
       attrs = %{theme: "Enum.shuffle([1, 2, 3])"}
       update_theme = Game.update_theme(create_theme, attrs)
 
-      assert match?(nil, update_theme)
+      assert match?({:ok, %Game.Theme{theme: "Enum.shuffle([1, 2, 3])"}}, update_theme)
     end
   end
 end
