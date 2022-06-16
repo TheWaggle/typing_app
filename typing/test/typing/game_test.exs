@@ -20,5 +20,11 @@ defmodule Typing.GameTest do
 
       assert match?([%Game.Theme{}, %Game.Theme{}, %Game.Theme{}], themes)
     end
+
+    test "登録されているお題がない場合は空のリストを取得します。" do
+      themes = Game.get_themes()
+
+      assert match?([], themes)
+    end
   end
 end
