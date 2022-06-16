@@ -16,4 +16,13 @@ defmodule TypingWeb.AdminThemeEditorLive do
 
     {:ok, socket}
   end
+
+  def handle_event("toggle_" <> event, params, socket) do
+    socket =
+      update(socket, :editor, fn editor ->
+        AdminThemeEditor.update(editor, event, params)
+      end)
+
+    {:noreply, socket}
+  end
 end

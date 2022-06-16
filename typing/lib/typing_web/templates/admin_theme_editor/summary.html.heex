@@ -16,7 +16,7 @@
         <td><%= theme.description %></td>
         <td><%= format_date(theme.inserted_at) %></td>
         <td>
-          <button>詳細</button>
+          <button phx-click="toggle_show" phx-value-id={theme.id}>詳細</button>
           <button>編集</button>
           <button>削除</button>
         </td>
