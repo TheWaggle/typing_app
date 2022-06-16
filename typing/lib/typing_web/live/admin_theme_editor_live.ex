@@ -25,4 +25,22 @@ defmodule TypingWeb.AdminThemeEditorLive do
 
     {:noreply, socket}
   end
+
+  def handle_event("sync_" <> event, params, socket) do
+    socket =
+      update(socket, :editor, fn editor ->
+        AdminThemeEditor.sync(editor, event, params)
+      end)
+
+    {:noreply, socket}
+  end
+
+  def handle_event("save_" <> event, params, socket) do
+    socket =
+      update(socket, :editor, fn editor ->
+        AdminThemeEditor.save(editor, event, params)
+      end)
+
+    {:noreply, socket}
+  end
 end

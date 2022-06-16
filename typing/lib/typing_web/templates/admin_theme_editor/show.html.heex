@@ -18,9 +18,11 @@
     <tr>
       <th></th>
       <td>
-        <button>編集</button>
+        <button phx-click="toggle_edit" phx-value-id={@editor.theme.id}>編集</button>
         <button>削除</button>
       </td>
     </tr>
   </tbody>
 </table>
+
+<p phx-click="toggle_summary">←お題一覧に戻る</p>
