@@ -1,7 +1,7 @@
 defmodule Typing.GameTest do
   use Typing.DataCase
+  alias Typing.Factory
   alias Typing.Game
-  alias Typing.Repo
 
   describe "get_themes/0" do
     test "登録されているお題をすべて取得します。" do
@@ -13,13 +13,7 @@ defmodule Typing.GameTest do
         ]
 
       for {theme, description} <- themes do
-        struct =
-          %Game.Theme{
-            theme: theme,
-            description: description
-          }
-
-        Repo.insert(struct)
+        Factory.insert!(:game_themes, %{theme: theme, description: description})
       end
 
       themes = Game.get_themes()
