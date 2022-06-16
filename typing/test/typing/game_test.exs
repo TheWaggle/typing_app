@@ -37,5 +37,14 @@ defmodule Typing.GameTest do
       create_theme = Game.create_theme(attrs)
       assert match?({:ok, %Game.Theme{}}, create_theme)
     end
+
+    test "お題が登録できない場合はチェンジセットを取得します。" do
+      theme = ""
+      description = ""
+      attrs = %{theme: theme, description: description}
+
+      create_theme = Game.create_theme(attrs) |> IO.inspect()
+      assert match?({:error, %Ecto.Changeset{}}, create_theme)
+    end
   end
 end
