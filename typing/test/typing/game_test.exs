@@ -3,6 +3,17 @@ defmodule Typing.GameTest do
   alias Typing.Factory
   alias Typing.Game
 
+  describe "get_theme/1" do
+    test "idで登録されているお題を取得します。" do
+      theme = "Enum.map([1, 2, 3], fn a -> a * 2 end)"
+      description = "リストの各要素に対して処理をした結果をリストとして返します。"
+      create_theme = Factory.insert!(:game_themes, %{theme: theme, description: description})
+
+      get_theme = Game.get_theme(create_theme.id)
+      assert match?(nil, get_theme)
+    end
+  end
+
   describe "get_themes/0" do
     test "登録されているお題をすべて取得します。" do
       themes =
@@ -43,7 +54,7 @@ defmodule Typing.GameTest do
       description = ""
       attrs = %{theme: theme, description: description}
 
-      create_theme = Game.create_theme(attrs) |> IO.inspect()
+      create_theme = Game.create_theme(attrs)
       assert match?({:error, %Ecto.Changeset{}}, create_theme)
     end
   end
