@@ -16,6 +16,8 @@ defmodule Typing.Game do
     Repo.one(query)
   end
 
+  def get_theme(_id), do: nil
+
   @doc """
   登録されている全てのgame_themeを取得します。
   """

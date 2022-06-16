@@ -23,6 +23,15 @@ defmodule Typing.GameTest do
       get_theme = Game.get_theme(id)
       assert match?(nil, get_theme)
     end
+
+    test "id以外の値の場合はnilを取得します。" do
+      theme = "Enum.map([1, 2, 3], fn a -> a * 2 end)"
+      description = "リストの各要素に対して処理をした結果をリストとして返します。"
+      Factory.insert!(:game_themes, %{theme: theme, description: description})
+
+      get_theme = Game.get_theme(0)
+      assert match?(nil, get_theme)
+    end
   end
 
   describe "get_themes/0" do
