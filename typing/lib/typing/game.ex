@@ -7,4 +7,8 @@ defmodule Typing.Game do
   """
   @spec get_themes() :: [Game.Theme.t()] | []
   def get_themes(), do: Repo.all(Game.Theme)
+
+  def create_theme(attrs) do
+    nil
+  end
 end

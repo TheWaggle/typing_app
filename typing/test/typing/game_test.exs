@@ -27,4 +27,15 @@ defmodule Typing.GameTest do
       assert match?([], themes)
     end
   end
+
+  describe "create_theme/1" do
+    test "お題を登録する。" do
+      theme = "Enum.map([1, 2, 3], fn a -> a * 2 end)"
+      description = "リストの各要素に対して処理をした結果をリストとして返します。"
+      attrs = %{theme: theme, description: description}
+
+      create_theme = Game.create_theme(attrs)
+      assert match?(nil, create_theme)
+    end
+  end
 end
