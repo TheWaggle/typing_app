@@ -78,4 +78,17 @@ defmodule Typing.GameTest do
       assert match?({:error, %Ecto.Changeset{}}, create_theme)
     end
   end
+
+  describe "update_theme/2" do
+    test "お題を更新する。" do
+      theme = "Enum.map([1, 2, 3], fn a -> a * 2 end)"
+      description = "リストの各要素に対して処理をした結果をリストとして返します。"
+      create_theme = Factory.insert!(:game_themes, %{theme: theme, description: description})
+
+      attrs = %{theme: "Enum.shuffle([1, 2, 3])"}
+      update_theme = Game.update_theme(create_theme, attrs)
+
+      assert match?(nil, update_theme)
+    end
+  end
 end

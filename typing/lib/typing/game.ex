@@ -32,4 +32,11 @@ defmodule Typing.Game do
     Game.Theme.changeset(%Game.Theme{}, attrs)
     |> Repo.insert()
   end
+
+  @doc """
+  game_themeを更新します。
+  """
+  def update_theme(%Game.Theme{} = theme, attrs) do
+    nil
+  end
 end
