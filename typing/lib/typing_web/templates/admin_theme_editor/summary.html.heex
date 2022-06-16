@@ -1,6 +1,6 @@
 <h1>お題一覧</h1>
 <div>
-  <button>お題作成</button>
+  <button phx-click="toggle_new_theme">お題作成</button>
 </div>
 <table>
   <tbody>
@@ -16,8 +16,8 @@
         <td><%= theme.description %></td>
         <td><%= format_date(theme.inserted_at) %></td>
         <td>
-          <button phx-click="toggle_show" phx-value-id={theme.id}>詳細</button>
-          <button phx-click="toggle_edit" phx-value-id={theme.id}>編集</button>
+          <button phx-click="toggle_show_theme" phx-value-id={theme.id}>詳細</button>
+          <button phx-click="toggle_edit_theme" phx-value-id={theme.id}>編集</button>
           <button phx-click="toggle_delete_theme" phx-value-id={theme.id}>削除</button>
         </td>
       </tr>

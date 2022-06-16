@@ -1,0 +1,18 @@
+<h1>お題登録</h1>
+
+<.form let={f} for={@editor.theme_changeset}
+  phx-submit="save_new_theme"
+  phx-change="sync_new_theme">
+
+  <%= label f, :theme, "お題" %>
+  <%= text_input f, :theme %>
+  <%= error_tag f, :theme %>
+
+  <%= label f, :description, "説明" %>
+  <%= textarea f, :description, row: 5 %>
+  <%= error_tag f, :description %>
+
+  <button type="submit">登録</button>
+</.form>
+
+<p phx-click="toggle_summary">←お題一覧に戻る</p>
