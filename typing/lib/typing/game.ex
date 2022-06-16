@@ -1,4 +1,5 @@
 defmodule Typing.Game do
+  import Ecto.Query
   alias Typing.Repo
   alias Typing.Game
 
@@ -7,7 +8,12 @@ defmodule Typing.Game do
   """
   @spec get_theme(Ecto.UUID.t()) :: Game.Theme.t() | nil
   def get_theme(<<_::288>> = id) do
-    nil
+    query =
+      from(t in Game.Theme,
+        where: t.id == ^id
+      )
+
+    Repo.one(query)
   end
 
   @doc """

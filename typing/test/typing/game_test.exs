@@ -10,7 +10,7 @@ defmodule Typing.GameTest do
       create_theme = Factory.insert!(:game_themes, %{theme: theme, description: description})
 
       get_theme = Game.get_theme(create_theme.id)
-      assert match?(nil, get_theme)
+      assert match?(%Game.Theme{}, get_theme)
     end
   end
 
