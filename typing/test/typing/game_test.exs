@@ -1,6 +1,7 @@
 defmodule Typing.GameTest do
   use Typing.DataCase
   alias Typing.Factory
+  alias Typing.Repo
   alias Typing.Game
 
   describe "get_theme/1" do
@@ -111,7 +112,9 @@ defmodule Typing.GameTest do
 
       delete_theme = Game.delete_theme(create_theme)
 
-      assert match?(nil, delete_theme)
+      assert match?({:ok, %Game.Theme{}}, delete_theme)
+
+      assert match?(nil, Repo.get(Game.Theme, create_theme.id))
     end
   end
 end
