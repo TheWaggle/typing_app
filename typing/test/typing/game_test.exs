@@ -35,7 +35,7 @@ defmodule Typing.GameTest do
       attrs = %{theme: theme, description: description}
 
       create_theme = Game.create_theme(attrs)
-      assert match?(nil, create_theme)
+      assert match?({:ok, %Game.Theme{}}, create_theme)
     end
   end
 end
