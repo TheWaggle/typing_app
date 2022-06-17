@@ -1,19 +1,26 @@
-<%= if @message do %>
-  <p><%= @message %></p>
-<% end %>
+<div class="flex justify-center">
+  <div class="card bg-base-100 shadow-xl w-1/3 mt-10">
+    <div class="card-body items-center">
+      <h2 class="card-title pb-4">アカウントログイン</h2>
+      <%= if @message do %>
+        <div class="alert alert-error shadow-lg">
+          <span><%= @message %></span>
+        </div>
+      <% end %>
 
-<div>
-  <%= form_for @account, Routes.core_account_session_path(@conn, :create), fn f -> %>
-    <%= label f, :name, "アカウント名" %>
-    <%= text_input f, :name %>
-    <%= error_tag f, :name %>
+      <%= form_for @account, Routes.core_account_session_path(@conn, :create), [class: "form-control pt-2"], fn f -> %>
+        <%= label f, :name, "アカウント名", class: "label" %>
+        <%= text_input f, :name, class: "input input-bordered" %>
+        <%= error_tag f, :name %>
 
-    <%= label f, :password, "パスワード" %>
-    <%= password_input f, :password %>
-    <%= error_tag f, :password %>
+        <%= label f, :password, "パスワード", class: "label" %>
+        <%= password_input f, :password, class: "input input-bordered w-min" %>
+        <%= error_tag f, :password %>
 
-    <div>
-      <button type="submit">ログイン</button>
+        <div class="card-actions justify-end pt-6">
+          <button type="submit" class="btn btn-info text-white">ログイン</button>
+        </div>
+      <% end %>
     </div>
-  <% end %>
+  </div>
 </div>
