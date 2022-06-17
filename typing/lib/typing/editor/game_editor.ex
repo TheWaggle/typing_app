@@ -2,6 +2,7 @@ defmodule Typing.Editor.GameEditor do
   import Typing.Utils.KeysDecision
   alias Typing.Utils.Execution
   alias Typing.Core
+  alias Typing.Game
 
   defstruct account: nil,
             input_char: "",
@@ -22,12 +23,12 @@ defmodule Typing.Editor.GameEditor do
   @type t :: %__MODULE__{
           account: Core.Account.t(),
           input_char: String.t(),
-          display_char: String.t(),
+          display_char: Game.Theme.t(),
           char_count: integer(),
           now_char_count: integer(),
           failure_counts: integer(),
           game_status: 0 | 1 | 2 | 3,
-          char_list: list(),
+          char_list: [Game.Theme.t()],
           clear_count: 0,
           result: any() | nil,
           mode: :select | :training | :game | :result,
@@ -50,21 +51,9 @@ defmodule Typing.Editor.GameEditor do
   # 3・・・ゲームクリア
 
   def construct(%Core.Account{} = account) do
-    char_list =
-      [
-        "Enum.map([1, 2, 3], fn a -> a * 2 end)",
-        "Enum.shuffle([1, 2, 3])",
-        "Enum.map([1, 2, 3])"
-      ]
-
-    display_char = hd(char_list)
-
     %__MODULE__{
       account: account,
-      display_char: display_char,
-      char_count: String.length(display_char),
-      game_status: 1,
-      char_list: char_list
+      game_status: 1
     }
   end
 
@@ -88,7 +77,7 @@ defmodule Typing.Editor.GameEditor do
 
   # @exclusion_key以外かつ入力判定がtrueかつgame_statusが1の場合はここがよばれる
   def update(%__MODULE__{display_char: char, now_char_count: count} = editor, "input_key", %{"key" => key})
-      when key not in @exclusion_key and key_check(char, count, key) and editor.game_status == 1 do
+      when key not in @exclusion_key and key_check(char.theme, count, key) and editor.game_status == 1 do
     cond do
       editor.now_char_count == editor.char_count - 1 ->
         display_result(editor, key)
@@ -116,27 +105,42 @@ defmodule Typing.Editor.GameEditor do
 
   # gameを割り当てる
   def update(%__MODULE__{} = editor, "select_mode", %{"mode" => "game"}) do
-    %{editor | mode: :game, timer: 60, game_status: 1}
+    char_list = Game.get_themes() |> Enum.shuffle()
+    display_char = hd(char_list)
+    char_count = String.length(display_char.theme)
+    %{
+      editor
+      | mode: :game,
+        timer: 60,
+        game_status: 1,
+        char_list: char_list,
+        display_char: display_char,
+        char_count: char_count
+    }
   end
 
   # trainigを割り当てる
-  def update(%__MODULE__{} = editor, "select_mode", %{"mode" => mode})
-      when mode in ["training", "result"] do
-    timer =
-      if mode == "result", do: editor.timer, else: 0
+  def update(%__MODULE__{} = editor, "select_mode", %{"mode" => "training"}) do
+    char_list = Game.get_themes() |> Enum.shuffle() |> Enum.chunk_every(10) |> hd()
+    display_char = hd(char_list) |> IO.inspect()
+    char_count = String.length(display_char.theme)
+    %{
+      editor
+      | mode: :training,
+        timer: 0,
+        game_status: 1,
+        char_list: char_list,
+        display_char: display_char,
+        char_count: char_count
+    }
+  end
 
-    %{editor | mode: String.to_atom(mode), timer: timer, game_status: 1}
+  def update(%__MODULE__{} = editor, "select_mode", %{"mode" => "result"}) do
+    %{editor | mode: :result, timer: editor.timer, game_status: 1}
   end
 
   # game, training どちらでもない場合は select を割り当てる
   def update(%__MODULE__{} = editor, "select_mode", _params) do
-    char_list =
-      [
-        "Enum.map([1, 2, 3], fn a -> a * 2 end)",
-        "Enum.shuffle([1, 2, 3])",
-        "Enum.map([1, 2, 3])"
-      ]
-
     %{
       editor
       | mode: :select,
@@ -146,9 +150,6 @@ defmodule Typing.Editor.GameEditor do
         clear_count: 0,
         timer: 0,
         results: [],
-        char_list: char_list,
-        display_char: hd(char_list),
-        char_count: String.length(hd(char_list)),
         input_char: "",
         now_char_count: 0,
         input_time: 0
@@ -163,8 +164,7 @@ defmodule Typing.Editor.GameEditor do
       when editor.mode == :game and editor.game_status == 1 and editor.timer <= 0 do
     %{
       editor
-      | display_char: "終了",
-        game_status: 3,
+      | game_status: 3,
         result: nil,
         failure_count: 0
     }
@@ -185,18 +185,11 @@ defmodule Typing.Editor.GameEditor do
 
   # 次の表示文字を割り当てます。その際リストに文字列がなければゲームクリアの状態にします。
   defp next_char(editor, key) do
-    char_list = List.delete(editor.char_list, editor.display_char)
+    char_list = List.delete(editor.char_list, editor.display_char) |> IO.inspect()
 
     char_list =
       if length(char_list) == 0 and editor.mode == :game do
-        list =
-          [
-            "Enum.map([1, 2, 3])",
-            "Enum.map([1, 2, 3], fn a -> a * 2 end)",
-            "Enum.shuffile([1, 2, 3])"
-          ]
-
-        Enum.shuffle(list)
+        Game.get_themes() |> Enum.shuffle()
       else
         char_list
       end
@@ -223,7 +216,7 @@ defmodule Typing.Editor.GameEditor do
           | char_list: char_list,
             display_char: display_char,
             input_char: "",
-            char_count: String.length(display_char),
+            char_count: String.length(display_char.theme),
             now_char_count: 0,
             game_status: 1,
             result: nil,
@@ -236,7 +229,7 @@ defmodule Typing.Editor.GameEditor do
   # display_char の値（関数）を実行して、その結果をresultに割り当てます。
   defp display_result(editor, key) do
     result =
-      case Execution.execution(editor.display_char) do
+      case Execution.execution(editor.display_char.theme) do
         {r, _} -> r
 
         error -> error
@@ -244,7 +237,8 @@ defmodule Typing.Editor.GameEditor do
 
     results =
       %{
-        display_char: editor.display_char,
+        display_char: editor.display_char.theme,
+        description: editor.display_char.description,
         time: editor.input_time,
         result: result,
         failure_count: editor.failure_count

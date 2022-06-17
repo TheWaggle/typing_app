@@ -2,10 +2,10 @@ defmodule TypingWeb.GameEditorView do
   use TypingWeb, :view
 
   def trem_display_char(editor) when editor.input_char != "" do
-    String.trim(editor.display_char, editor.input_char)
+    String.trim(editor.display_char.theme, editor.input_char)
   end
 
-  def trem_display_char(editor), do: editor.display_char
+  def trem_display_char(editor), do: editor.display_char.theme
 
   def get_timer_title(editor) do
     case editor.mode do
