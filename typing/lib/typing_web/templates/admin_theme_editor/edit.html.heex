@@ -7,6 +7,21 @@
   <%= label f, :theme, "お題" %>
   <%= text_input f, :theme %>
   <%= error_tag f, :theme %>
+  <p>※半角英数字と半角記号のみで入力してください</p>
+
+  <div>
+    <p>実行結果</p>
+    <%= if @editor.result do %>
+      <p><%= inspect(@editor.result) %></p>
+    <% end %>
+    <%
+      theme = get_theme_for_changeset(@editor.theme_changeset)
+      check = is_nil(theme)
+    %>
+    <button type="button" phx-click="toggle_result" phx-value-theme={theme} disabled={check}>
+      実行
+    </button>
+  </div>
 
   <%= label f, :description, "説明" %>
   <%= textarea f, :description, rows: 5  %>
@@ -16,4 +31,4 @@
 </.form>
 
 <p phx-click="toggle_summary">←お題一覧に戻る</p>
-<p phx-click="toggle_show" phx-value-id={@editor.theme.id}>←お題詳細に戻る</p>
+<p phx-click="toggle_show_theme" phx-value-id={@editor.theme.id}>←お題詳細に戻る</p>
