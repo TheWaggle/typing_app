@@ -2,7 +2,7 @@ defmodule TypingWeb.CoreAccountAuth do
   import Plug.Conn
   import Phoenix.Controller
 
-  alias TypingWeb.Router.Helper, as: Routes, warn: false
+  alias TypingWeb.Router.Helpers, as: Routes, warn: false
   alias Typing.Core
 
   @doc """

@@ -20,6 +20,8 @@ defmodule TypingWeb.Router do
     pipe_through [:browser, :fetch_current_core_account, :redirect_if_core_account_is_authenticated]
 
     get "/", PageController, :index
+    get "/log_in", CoreAccountSessionController, :new
+    post "/log_in", CoreAccountSessionController, :create
   end
 
   scope "/", TypingWeb do
