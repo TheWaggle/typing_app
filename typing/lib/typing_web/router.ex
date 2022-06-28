@@ -1,6 +1,8 @@
 defmodule TypingWeb.Router do
   use TypingWeb, :router
 
+  import TypingWeb.CoreAccountAuth
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -15,11 +17,17 @@ defmodule TypingWeb.Router do
   end
 
   scope "/", TypingWeb do
-    pipe_through :browser
+    pipe_through [:browser, :fetch_current_core_account, :redirect_if_core_account_is_authenticated]
 
     get "/", PageController, :index
+  end
 
-    live "/game", GameEditorLive, :index
+  scope "/", TypingWeb do
+    pipe_through [:browser, :fetch_current_core_account, :requrie_authenticated_core_account]
+
+    live_session :game do
+      live "/game", GameEditorLive, :index
+    end
   end
 
   # Other scopes may use custom stacks.
