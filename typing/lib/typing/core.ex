@@ -6,6 +6,7 @@ defmodule Typing.Core do
   @doc """
   idからcore_accountを取得します。
   """
+  @spec get_account(Ecto.UUID.t()) :: Core.Account.t() | nil
   def get_account(<<_::288>> = id) do
     query =
       from(a in Core.Account,

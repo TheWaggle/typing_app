@@ -17,6 +17,23 @@ defmodule Typing.Editor.GameEditor do
             failure_count: 0,
             results: []
 
+  @type t :: %__MODULE__{
+          input_char: String.t(),
+          display_char: String.t(),
+          char_count: integer(),
+          now_char_count: integer(),
+          failure_counts: integer(),
+          game_status: 0 | 1 | 2 | 3,
+          char_list: list(),
+          clear_count: 0,
+          result: any() | nil,
+          mode: :select | :training | :game | :result,
+          timer: integer(),
+          input_time: integer(),
+          failure_count: integer(),
+          results: list()
+  }
+
   # mode
   #:select・・・モード選択
   #:training・・・練習モード
