@@ -54,4 +54,18 @@ defmodule Typing.Core do
     token = :crypto.strong_rand_bytes(@rand_size)
     {token, %Core.AccountToken{token: token, context: "session", account_id: account.id}}
   end
+
+  @doc """
+  アカウントのトークンを削除します。
+  """
+  @spec delete_session_token(binary()) :: {:ok, Core.Account.t()}
+  def delete_session_token(token) when is_binary(token) do
+    query =
+      from(at in Core.AccountToken,
+        where: at.token == ^token
+      )
+
+    Repo.one(query)
+    |> Repo.delete()
+  end
 end

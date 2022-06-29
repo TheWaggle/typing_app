@@ -28,4 +28,14 @@ defmodule TypingWeb.CoreAccountSessionController do
         render(conn, "new.html", account: Core.Account.build_changeset(), message: "アカウント名またはパスワードが違います。")
     end
   end
+
+  def delete(conn, _params) do
+    token = get_session(conn, :core_account_token)
+    Core.delete_session_token(token)
+
+    conn
+    |> delete_session(:core_account_token)
+    |> delete_session(:core_account_id)
+    |> redirect(to: "/log_in")
+  end
 end
