@@ -1,13 +1,16 @@
 defmodule TypingWeb.GameEditorLive do
   use Phoenix.LiveView
   alias Typing.Editor.GameEditor
+  alias Typing.Core
 
   def render(assigns), do: TypingWeb.GameEditorView.render(assigns.template, assigns)
 
-  def mount(_params, _session, socket) do
+  def mount(_params, session, socket) do
+    account = Core.get_account(session["core_account_id"])
+
     socket =
       socket
-      |> assign(:editor, GameEditor.construct())
+      |> assign(:editor, GameEditor.construct(account))
       |> assign(:page_title, "タイピングゲーム")
       |> assign(:template, "main.html")
 
