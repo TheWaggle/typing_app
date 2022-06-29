@@ -22,6 +22,9 @@ defmodule TypingWeb.Router do
     get "/", PageController, :index
     get "/log_in", CoreAccountSessionController, :new
     post "/log_in", CoreAccountSessionController, :create
+
+    get "/join", CoreAccountRegistrationController, :new
+    post "/join", CoreAccountRegistrationController, :create
   end
 
   scope "/", TypingWeb do

@@ -1,0 +1,23 @@
+<%= if @message do %>
+  <p><%= @message %></p>
+<% end %>
+
+<div>
+  <%= form_for @account, Routes.core_account_registration_path(@conn, :create), fn f -> %>
+    <%= label f, :name, "アカウント名" %>
+    <%= text_input f, :name %>
+    <%= error_tag f, :name %>
+
+    <%= label f, :email, "メールアドレス" %>
+    <%= email_input f, :email %>
+    <%= error_tag f, :email %>
+
+    <%= label f, :password, "パスワード" %>
+    <%= password_input f, :password %>
+    <%= error_tag f, :password %>
+
+    <div>
+      <button type="submit">アカウント作成</button>
+    </div>
+  <% end %>
+</div>
