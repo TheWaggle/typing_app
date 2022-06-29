@@ -68,4 +68,13 @@ defmodule Typing.Core do
     Repo.one(query)
     |> Repo.delete()
   end
+
+  @doc """
+  Core.Accountを作成します。
+  """
+  @spec create_account(%{}) :: {:ok, Core.Account.t()} | {:error, Ecto.Changeset.t()}
+  def create_account(params) do
+    Core.Account.changeset(%Core.Account{}, params)
+    |> Repo.insert()
+  end
 end
