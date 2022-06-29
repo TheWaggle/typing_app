@@ -2,6 +2,7 @@ Logger.configure(level: :warning)
 
 file_names = ~w(
   core_account
+  admin_account
 )
 
 for file_name <- file_names do
