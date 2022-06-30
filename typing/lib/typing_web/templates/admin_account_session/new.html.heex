@@ -1,0 +1,19 @@
+<%= if @message do %>
+  <p><%= @message %></p>
+<% end %>
+
+<div>
+  <%= form_for @account, Routes.admin_account_session_path(@conn, :create), fn f -> %>
+    <%= label f, :name, "アカウント名" %>
+    <%= text_input f, :name %>
+    <%= error_tag f, :name %>
+
+    <%= label f, :password, "パスワード" %>
+    <%= password_input f, :password %>
+    <%= error_tag f, :password %>
+
+    <div>
+      <button type="submit">ログイン</button>
+    </div>
+  <% end %>
+</div>

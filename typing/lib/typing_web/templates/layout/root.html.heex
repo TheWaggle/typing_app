@@ -15,9 +15,17 @@
         <nav>
           <ul>
             <li>
-              <%= if get_token(@conn) do %>
-                <%= link to: Routes.core_account_session_path(@conn, :delete), method: :delete do %>
-                  <span>ログアウト</span>
+              <%= if get_path_info(@conn) == "admin" do %>
+                <%= if get_token(@conn) do %>
+                  <%= link to: Routes.admin_account_session_path(@conn, :delete), method: :delete do %>
+                    <span>ログアウト</span>
+                  <% end %>
+                <% end %>
+              <% else %>
+                <%= if get_token(@conn) do %>
+                  <%= link to: Routes.core_account_session_path(@conn, :delete), method: :delete do %>
+                    <span>ログアウト</span>
+                  <% end %>
                 <% end %>
               <% end %>
             </li>

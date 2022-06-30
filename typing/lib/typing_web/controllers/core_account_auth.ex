@@ -38,8 +38,7 @@ defmodule TypingWeb.CoreAccountAuth do
   認証が必要なルートに使用します。
   認証が確認できない場合はログイン画面にリダイレクトします。
   """
-  # ここにログイン画面にリダイレクトするルートを記述
-  def requrie_authenticated_core_account(conn, _opts) do
+  def require_authenticated_core_account(conn, _opts) do
     if conn.assigns[:current_core_account] do
       conn
     else

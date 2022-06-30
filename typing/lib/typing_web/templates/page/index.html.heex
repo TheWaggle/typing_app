@@ -9,4 +9,9 @@
       <span>アカウント作成</span>
     <% end %>
   </li>
+  <li>
+    <%= link to: Routes.admin_account_session_path(@conn, :new) do %>
+      <span>管理者のログインはこちら</span>
+    <% end %>
+  </li>
 </ul>
