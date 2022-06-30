@@ -29,4 +29,6 @@ defmodule Typing.Admin.Account do
 
     field(:password, :string, virtual: true, redact: true)
   end
+
+  def build_changeset(), do: cast(%__MODULE__{}, %{}, [])
 end
