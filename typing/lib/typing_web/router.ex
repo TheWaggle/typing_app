@@ -50,6 +50,14 @@ defmodule TypingWeb.Router do
   end
 
   scope "/admin", TypingWeb do
+    pipe_through [:browser, :fetch_current_admin_account, :require_authenticated_admin_account]
+
+    live_session :admin_account do
+      live "/account", AdminAccountEditorLive, :index
+    end
+  end
+
+  scope "/admin", TypingWeb do
     pipe_through [:browser, :fetch_current_admin_account]
 
     delete "/log_out", AdminAccountSessionController, :delete

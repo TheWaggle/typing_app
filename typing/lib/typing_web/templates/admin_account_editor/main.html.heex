@@ -1,0 +1,5 @@
+<%=
+  case @editor.mode do
+    :summary -> render "summary.html", editor: @editor
+  end
+%>
