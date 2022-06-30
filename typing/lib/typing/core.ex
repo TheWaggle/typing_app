@@ -40,6 +40,12 @@ defmodule Typing.Core do
   def get_account_by_password(_name, _password), do: nil
 
   @doc """
+  全ての core_account を取得します。
+  """
+  @spec get_accounts() :: [Core.Account.t()]
+  def get_accounts(), do: Repo.all(Core.Account)
+
+  @doc """
   アカウントのトークを作成します。
   """
   @spec generate_account_session_token(Core.Account.t()) :: binary()
