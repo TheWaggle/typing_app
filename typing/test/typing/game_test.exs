@@ -1,5 +1,6 @@
 defmodule Typing.GameTest do
   use Typing.DataCase
+  alias Typing.Factory
   alias Typing.Game
 
   describe "get_themes/0" do
@@ -8,13 +9,7 @@ defmodule Typing.GameTest do
       description = "シャッフルされた要素を含むリストを返します。"
 
       for _num <- 1..3 do
-        struct =
-          %Game.Theme{
-            theme: theme,
-            description: description
-          }
-
-        Repo.insert(struct)
+        Factory.insert!(:game_themes, %{theme: theme, description: description})
       end
 
       themes = Game.get_themes()
