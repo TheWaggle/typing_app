@@ -8,7 +8,7 @@ docker-compose up -d
 
 webコンテナに入る
 ```
-dokcer-compose exec web /bin/bash
+docker-compose exec web /bin/bash
 ```
 
 初回（パッケージの取得、DBの作成）
