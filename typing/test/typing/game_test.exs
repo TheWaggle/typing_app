@@ -23,4 +23,26 @@ defmodule Typing.GameTest do
       assert [] == themes
     end
   end
+
+  describe "create_theme/1" do
+    test "お題を登録できたらGame.Theme構造体を取得します。" do
+      theme = "Enum.map([1, 2, 3], fn a -> a * 2 end)"
+
+      description = "リストの各要素に対して処理をした結果をリストとして返す。"
+
+      attrs = %{theme: theme, description: description}
+
+      create_theme = Game.create_theme(attrs)
+
+      assert match?({:ok, %Game.Theme{}}, create_theme)
+    end
+
+    test "お題の登録に失敗した場合はチェンジセットを取得します。" do
+      attrs = %{theme: "", description: ""}
+
+      create_theme = Game.create_theme(attrs)
+
+      assert match?({:error, %Ecto.Changeset{}}, create_theme)
+    end
+  end
 end
