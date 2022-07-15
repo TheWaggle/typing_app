@@ -3,6 +3,33 @@ defmodule Typing.GameTest do
   alias Typing.Factory
   alias Typing.Game
 
+  describe "get_theme/1" do
+    test "idで登録されているお題を取得します。" do
+      create_theme = Factory.insert!(:game_themes)
+
+      get_theme = Game.get_theme(create_theme.id)
+
+      assert match?(%Game.Theme{}, get_theme)
+      assert create_theme.id == get_theme.id
+    end
+
+    test "存在しないidの場合はnilを取得します。" do
+      id = Ecto.UUID.generate()
+
+      get_theme = Game.get_theme(id)
+
+      assert nil == get_theme
+    end
+
+    test "id以外の値の場合はnilを取得します。" do
+      id = "a"
+
+      get_theme = Game.get_theme(id)
+
+      assert nil == get_theme
+    end
+  end
+
   describe "get_themes/0" do
     test "登録されているお題を全て取得します。" do
       theme = "Enum.shuffle([1, 2, 3])"
