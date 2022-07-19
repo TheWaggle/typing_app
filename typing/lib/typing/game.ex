@@ -3,6 +3,16 @@ defmodule Typing.Game do
   alias Typing.Game
 
   @doc """
+  idでお題を取得します。
+  """
+  @spec get_theme(Ecto.UUID.t()) :: Game.Theme.t() | nil
+  def get_theme(<<_::288>> = id) do
+    Repo.get(Game.Theme, id)
+  end
+
+  def get_theme(_id), do: nil
+
+  @doc """
   お題を全て取得します。
   """
   @spec get_themes() :: [Game.Theme.t()] | []
