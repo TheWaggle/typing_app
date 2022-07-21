@@ -27,4 +27,14 @@ defmodule Typing.Game do
     |> Game.Theme.changeset(attrs)
     |> Repo.insert()
   end
+
+  @doc """
+  game_themeの情報を更新します。
+  """
+  @spec update_theme(Game.Theme.t(), %{}) :: {:ok, Game.Theme.t()} | {:error, Ecto.Changeset.t()}
+  def update_theme(%Game.Theme{} = theme, attrs) do
+    theme
+    |> Game.Theme.changeset(attrs)
+    |> Repo.update()
+  end
 end
