@@ -2,6 +2,7 @@ defmodule Typing.GameTest do
   use Typing.DataCase
   alias Typing.Factory
   alias Typing.Game
+  alias Typing.Repo
 
   describe "get_theme/1" do
     test "idで登録されているお題を取得します。" do
@@ -100,6 +101,28 @@ defmodule Typing.GameTest do
       update_theme = Game.update_theme(create_theme, attrs)
 
       assert match?({:error, %Ecto.Changeset{}}, update_theme)
+    end
+  end
+
+  describe "delete_theme/1" do
+    test "お題を削除したらGame.Theme構造体を取得します。" do
+      theme = "Enum.map([1, 2, 3], fn a -> a * 2 end)"
+
+      description = "リストの要素に対して処理をした結果をリストとして返す。"
+
+      create_theme = Factory.insert!(:game_themes, %{theme: theme, description: description})
+
+      delete_theme = Game.delete_theme(create_theme)
+
+      assert match?({:ok, %Game.Theme{}}, delete_theme)
+
+      assert match?(nil, Repo.get(Game.Theme, create_theme.id))
+    end
+
+    test "Game.Theme構造体以外の値を受け取った場合はnilを取得します。" do
+      delete_theme = Game.delete_theme(1)
+
+      assert nil == delete_theme
     end
   end
 end
