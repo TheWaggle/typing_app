@@ -1,0 +1,26 @@
+<h1>お題一覧</h1>
+<div>
+  <button>お題作成</button>
+</div>
+<table>
+  <tbody>
+    <tr>
+      <th>お題</th>
+      <th>説明</th>
+      <th>登録日時</th>
+      <th></th>
+    </tr>
+    <%= for theme <- @editor.themes do %>
+      <tr>
+        <td><%= theme.theme %></td>
+        <td><%= theme.description %></td>
+        <td><%= format_date(theme.inserted_at) %></td>
+        <td>
+          <button>詳細</button>
+          <button>編集</button>
+          <button>削除</button>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

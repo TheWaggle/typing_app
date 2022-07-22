@@ -59,6 +59,10 @@ defmodule TypingWeb.Router do
     live_session :admin_registrant do
       live "/registrant", AdminRegistrantEditorLive, :index
     end
+
+    live_session :admin_theme do
+      live "/theme", AdminThemeEditorLive, :index
+    end
   end
 
   scope "/admin", TypingWeb do
