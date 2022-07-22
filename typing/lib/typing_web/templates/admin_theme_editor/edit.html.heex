@@ -1,6 +1,8 @@
 <h1>お題の編集</h1>
 
-<.form let={f} for={@editor.theme_changeset}>
+<.form let={f} for={@editor.theme_changeset}
+  phx-submit="save_edit_theme"
+  phx-change="sync_edit_theme">
 
   <%= label f, :theme, "お題" %>
   <%= text_input f, :theme %>
