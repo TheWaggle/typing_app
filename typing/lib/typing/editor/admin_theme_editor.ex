@@ -5,13 +5,15 @@ defmodule Typing.Editor.AdminThemeEditor do
   defstruct account: nil,
             mode: :summary,
             themes: [],
-            theme: nil
+            theme: nil,
+            theme_changeset: nil
 
   @type t :: %__MODULE__{
           account: Admin.Account.t(),
           mode: :summary,
           themes: [Game.Theme.t()] | [],
-          theme: Game.Theme.t() | nil
+          theme: Game.Theme.t() | nil,
+          theme: Ecto.Changeset.t() | nil
   }
 
   def construct(%Admin.Account{} = account) do
@@ -23,6 +25,13 @@ defmodule Typing.Editor.AdminThemeEditor do
 
   def update(%__MODULE__{} = editor, "show", %{"id" => id}) do
     %{editor | theme: Game.get_theme(id), mode: :show}
+  end
+
+  def update(%__MODULE__{} = editor, "edit", %{"id" => id}) do
+    theme = Game.get_theme(id)
+    cs = Game.Theme.changeset(theme)
+
+    %{editor | theme: theme, theme_changeset: cs, mode: :edit}
   end
 
   def update(%__MODULE__{} = editor, "delete", %{"id" => id}) do

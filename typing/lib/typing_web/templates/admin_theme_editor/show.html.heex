@@ -16,7 +16,7 @@
     <tr>
       <th></th>
       <td>
-        <button>編集</button>
+        <button phx-click="toggle_edit" phx-value-id={@editor.theme.id}>編集</button>
         <button phx-click="toggle_delete" phx-value-id={@editor.theme.id}>削除</button>
       </td>
     </tr>
