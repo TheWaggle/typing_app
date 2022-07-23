@@ -23,6 +23,10 @@ defmodule Typing.Editor.AdminThemeEditor do
     }
   end
 
+  def update(%__MODULE__{} = editor, "summary", _params) do
+    %{editor | theme: nil, themes: Game.get_themes, theme_changeset: nil, mode: :summary}
+  end
+
   def update(%__MODULE__{} = editor, "show", %{"id" => id}) do
     %{editor | theme: Game.get_theme(id), mode: :show}
   end
