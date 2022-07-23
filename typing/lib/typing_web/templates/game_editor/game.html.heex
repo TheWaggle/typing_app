@@ -1,8 +1,9 @@
 <h2>
-  <%= if @editor.game_status == 1 do %>
-    <span style="color: blue;"><%= @editor.input_char %></span><%= trem_display_char(@editor) %>
-  <% else %>
-    <%= @editor.display_char %>
+  <%= case @editor.game_status do %>
+    <% status when status in [1, 2] -> %>
+      <span style="color: blue;"><%= @editor.input_char %></span><%= trem_display_char(@editor) %>
+    <% 3 -> %>
+      終了
   <% end %>
 </h2>
 

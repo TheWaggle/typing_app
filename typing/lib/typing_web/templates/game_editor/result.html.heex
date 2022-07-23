@@ -16,6 +16,7 @@
 <%= for result <- @editor.results do %>
   <h3>お題：<%= result.display_char %></h3>
   <h3>結果：<%= inspect(result.result) %></h3>
+  <h3>説明：<%= result.description %></h3>
   <h3>入力にかかった時間：<%= result.time %> 秒</h3>
   <h3>ミスした回数：<%= result.failure_count %> 回</h3>
   <hr>
