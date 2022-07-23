@@ -27,6 +27,12 @@ defmodule Typing.Editor.AdminThemeEditor do
     %{editor | theme: Game.get_theme(id), mode: :show}
   end
 
+  def update(%__MODULE__{} = editor, "new", _params) do
+    cs = Game.Theme.build_changeset()
+
+    %{editor | theme_changeset: cs, mode: :new}
+  end
+
   def update(%__MODULE__{} = editor, "edit", %{"id" => id}) do
     theme = Game.get_theme(id)
     cs = Game.Theme.changeset(theme)
@@ -42,10 +48,26 @@ defmodule Typing.Editor.AdminThemeEditor do
     %{editor | theme: nil, themes: Game.get_themes(), mode: :summary}
   end
 
+  def sync(%__MODULE__{} = editor, "new_theme", %{"theme" => attrs}) do
+    cs = Game.Theme.changeset(%Game.Theme{}, attrs)
+
+    %{editor | theme_changeset: cs}
+  end
+
   def sync(%__MODULE__{} = editor, "edit_theme", %{"theme" => attrs}) do
     cs = Game.Theme.changeset(editor.theme, attrs)
-    
+
     %{editor | theme_changeset: cs}
+  end
+
+  def save(%__MODULE__{} = editor, "new_theme", %{"theme" => attrs}) do
+    case Game.create_theme(attrs) do
+      {:ok, %Game.Theme{} = theme} ->
+        %{editor | theme: theme, theme_changeset: nil, mode: :show}
+
+      {:error, cs} ->
+        %{editor | theme_changeset:  cs}
+    end
   end
 
   def save(%__MODULE__{} = editor, "edit_theme", %{"theme" => attrs}) do

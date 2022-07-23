@@ -1,0 +1,16 @@
+<h1>お題の作成</h1>
+
+<.form let={f} for={@editor.theme_changeset}
+  phx-submit="save_new_theme"
+  phx-change="sync_new_theme">
+
+  <%= label f, :theme, "お題" %>
+  <%= text_input f, :theme %>
+  <%= error_tag f, :theme %>
+
+  <%= label f, :description, "説明" %>
+  <%= textarea f, :description, rows: 5 %>
+  <%= error_tag f, :description %>
+
+  <button type="submit">作成</button>
+</.form>
