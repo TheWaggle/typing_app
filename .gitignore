@@ -2,3 +2,5 @@
 tmp/
 
 typing/priv/static/result.exs
+
+node_modules/
